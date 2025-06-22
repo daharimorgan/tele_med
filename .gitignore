@@ -1,0 +1,20 @@
+# Python virtual environment
+.venv/
+
+# Environment config files
+.env
+.env.*
+
+# Editor and system files
+.DS_Store
+.completion.json
+
+# Misc
+.roo/
+.roomodes
+
+# Logs and temporary files
+logs/
+
+# Setup script log
+/tmp/setup.log
