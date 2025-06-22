@@ -1,0 +1,4 @@
+{
+  "node": ["@mastra/core", "typescript", "jest", "ts-jest", "react", "react-native"],
+  "python": ["fastapi", "uvicorn", "sqlite-utils", "pydantic", "python-dotenv"]
+}
