@@ -1,0 +1,102 @@
+# care_coordination.py - Workflow automation service
+from typing import List, Dict
+from fastapi import APIRouter, Depends, HTTPException
+from datetime import datetime, timedelta
+import itertools
+import uuid
+
+# Import our authentication dependencies
+from .main import get_current_active_user, User
+
+# Define router for care coordination endpoints
+router = APIRouter()
+
+# Mock database for workflows (replace with PostgreSQL in production)
+workflows_db = {}
+
+# Data models
+class CareActivity(BaseModel):
+    id: str = None
+    title: str
+    description: str
+    due_date: datetime
+    assignee: str
+    status: str = "pending"
+
+class CareWorkflow(BaseModel):
+    id: str = None
+    patient_id: str
+    care_team_id: str
+    activities: List[CareActivity] = []
+    created_by: str
+    created_at: datetime = None
+    status: str = "active"
+
+# Generate workflow ID
+def generate_workflow_id():
+    return str(uuid.uuid4())
+
+# Create a new workflow
+@router.post("/workflows/")
+async def create_workflow(workflow: CareWorkflow, 
+                          current_user: User = Depends(get_current_active_user)):
+    workflow.id = generate_workflow_id()
+    workflow.created_at = datetime.now()
+    workflow.created_by = current_user.username
+    
+    # Validate user permissions
+    if current_user.role not in ["care_coordinator", "provider"]:
+        raise HTTPException(status_code=403, detail="Not authorized to create workflows")
+    
+    workflows_db[workflow.id] = workflow.dict()
+    return workflow
+
+# Get all workflows for a patient
+@router.get("/workflows/patient/{patient_id}")
+async def get_patient_workflows(patient_id: str,
+                               current_user: User = Depends(get_current_active_user)):
+    # Filter workflows by patient ID
+    patient_workflows = [wf for wf in workflows_db.values() if wf["patient_id"] == patient_id]
+    
+    # Check if user has access to these workflows
+    if current_user.role == "patient" and current_user.username != patient_id:
+        raise HTTPException(status_code=403, detail="Not authorized to view these workflows")
+    
+    return patient_workflows
+
+# Update workflow status
+@router.put("/workflows/{workflow_id}/status")
+async def update_workflow_status(workflow_id: str, 
+                                 new_status: str,
+                                 current_user: User = Depends(get_current_active_user)):
+    workflow = workflows_db.get(workflow_id)
+    if not workflow:
+        raise HTTPException(status_code=404, detail="Workflow not found")
+    
+    # Check permissions
+    if current_user.role not in ["care_coordinator", "provider"]:
+        raise HTTPException(status_code=403, detail="Not authorized to update workflow status")
+    
+    workflow["status"] = new_status
+    workflows_db[workflow_id] = workflow
+    return workflow
+
+# Add care activity to workflow
+@router.post("/workflows/{workflow_id}/activities")
+async def add_workflow_activity(workflow_id: str, activity: CareActivity,
+                               current_user: User = Depends(get_current_active_user)):
+    workflow = workflows_db.get(workflow_id)
+    if not workflow:
+        raise HTTPException(status_code=404, detail="Workflow not found")
+    
+    # Check permissions
+    if current_user.role not in ["care_coordinator", "provider"]:
+        raise HTTPException(status_code=403, detail="Not authorized to add workflow activities")
+    
+    # Generate activity ID if not provided
+    if not activity.id:
+        activity.id = str(uuid.uuid4())
+    
+    workflow["activities"].append(activity.dict())
+    workflows_db[workflow_id] = workflow
+    return activity

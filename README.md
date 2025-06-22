@@ -89,17 +89,9 @@ EOF
  This project is licensed under the MIT License. See the LICENSE file for details.
 
  ## Contact
- 
+
  For questions or contributions, please contact:
  - **Email:** goodposture.dsm@gmail.com
-=======
-# Patient Care Coordination & Telemedicine Platform
-
-## Overview
-
-This project is a cloud-native, AI-powered platform designed to streamline patient care coordination and enable secure, efficient telemedicine services. It centralizes communication among care teams, consolidates patient data from multiple sources, and automates care workflows to improve outcomes, reduce administrative burden, and enhance patient and provider experiences.
-
-## Features
 
 - **Care Team Communication:**  
   Secure, real-time messaging and notifications for doctors, nurses, care coordinators, patients, and authorized family members.
@@ -203,6 +195,10 @@ This project is a cloud-native, AI-powered platform designed to streamline patie
 This project is licensed under the MIT License.
 
 ## Contact
+For questions or contributions, please contact:
+ - **Email:** goodposture.dsm@gmail.com
+
+## Acknowledgments
 
 For questions, support, or demo requests, please contact the project maintainer.
 
@@ -212,4 +208,4 @@ For questions, support, or demo requests, please contact the project maintainer.
 
 Sources
 [1] Projects projects.technology_development
->>>>>>> 75e15822970b21bfbe5a9dde2fc6d4e67a07f940
+>>>>>>> 75e15822970b21bfbe5a9dde2fc6d4e67a07f946  
