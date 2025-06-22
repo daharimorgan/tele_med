@@ -1,35 +1,35 @@
-# Python virtual environment and bytecode
-.venv/
-__pycache__/
-*.pyc
-
-# Environment config files
-.env
-.env.*
-
-# Editor and system files
-.DS_Store
-.completion.json
-
-# Misc
-.roo/
-.roomodes
-
-# Node modules and build artifacts
-node_modules/
-dist/
-coverage/
-
-# IDE settings
-.vscode/
-.idea/
-
-# Misc data directories
-memory/
-pseudo/
-
-# Logs and temporary files
-logs/
-
-# Setup script log
-/tmp/setup.log
++# Python virtual environment and bytecode
++.venv/
++__pycache__/
++*.pyc
++
++# Environment config files
++.env
++.env.*
++
++# Editor and system files
++.DS_Store
++.completion.json
++
++# Misc
++.roo/
++.roomodes
++
++# Node modules and build artifacts
++node_modules/
++dist/
++coverage/
++
++# IDE settings
++.vscode/
++.idea/
++
++# Misc data directories
++memory/
++pseudo/
++
++# Logs and temporary files
++logs/
++
++# Setup script log
++/tmp/setup.log
